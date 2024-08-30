@@ -1,0 +1,41 @@
+*{
+    font-family: monospace;
+}
+
+body{
+    background-image: url('https://static.vecteezy.com/system/resources/previews/001/591/062/non_2x/fashion-clothes-store-background-free-vector.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    height: 100vh;
+    width: 100vw;
+    margin: 0;
+    padding: 0;
+}
+
+
+.body{
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+h1{
+    width: 17vw;
+    text-align: center;
+    font-size: 2.5vw;
+    padding: 3vw;
+    margin: 0vw 0vw 2vw 0vw;
+}
+
+button{
+    width: 18vw;
+    height: 8vh;
+    background-color: rgb(204, 131, 104);
+    border: none;
+    border-radius: 30%;
+    font-size: 1.8vw;
+}
