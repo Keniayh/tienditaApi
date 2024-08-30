@@ -14,10 +14,19 @@ function fetchStore() {
     xhr.send()
 }
 
+document.addEventListener('DOMContentLoaded', function() {
+    fetchStore();
+});
 
 function displayProduct(dato) {
     let productsContainer = document.getElementById("products");
-    productsContainer.innerHTML = '';
+
+    if (!productsContainer) {
+        console.error('El contenedor con ID "products" no existe en el DOM.');
+        return;
+    }
+
+    productsContainer.innerHTML = ``;
 
     dato.forEach(product => {
         let productElement = document.createElement('div');
@@ -35,7 +44,12 @@ function displayProduct(dato) {
 
 // Crear el nuevo producto...
 function submitForm() {
-    event.preventDefault(); 
+    const codigoInput = document.getElementById('codigo');
+    const nombreInput = document.getElementById('nombre');
+    const precioInput = document.getElementById('precio');
+    const stockInput = document.getElementById('stock');
+
+
     const codigo = document.getElementById('codigo').value;
     const nombre = document.getElementById('nombre').value;
     const precio = parseFloat(document.getElementById('precio').value);
@@ -64,13 +78,15 @@ function submitForm() {
     })
     .then(data => {
         console.log('Producto creado:', data);
+        messageDiv.textContent = '¡Producto creado con éxito!';
+        messageDiv.style.color = 'green';
+
         codigoInput.value = '';
         nombreInput.value = '';
         precioInput.value = '';
         stockInput.value = '';
 
-        messageDiv.textContent = '¡Producto creado con éxito!';
-        messageDiv.style.color = 'green';
+        fetchStore();
     })
     .catch(error => {
         console.error('Error:', error);
@@ -82,17 +98,19 @@ function submitForm() {
 // Funcion para eliminar un producto de la API
 
 function deleteProduct(codigo) {
+    const messageDiv = document.getElementById('message');
+
     let xhr = new XMLHttpRequest();
     let url = `http://localhost:3703/api/demo/deletestore/${codigo}`;
     xhr.open('DELETE', url, true);
     xhr.onreadystatechange = function () {
         if (this.readyState == 4 && this.status === 200) {
-            let message = this.responseText;
-            alert(message);
+            messageDiv.textContent = '¡Producto eliminado con éxito!';
+            messageDiv.style.color = 'green';
             fetchStore();
         } else if (this.readyState == 4) {
-            console.error("Error al eliminar el producto");
-            alert("Error al eliminar el producto");
+            messageDiv.textContent = 'Error al eliminar el producto. Inténtalo de nuevo.';
+            messageDiv.style.color = 'red';
         }
     }
     xhr.send();
