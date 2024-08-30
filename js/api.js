@@ -35,11 +35,12 @@ function displayProduct(dato) {
 
 // Crear el nuevo producto...
 function submitForm() {
-
+    event.preventDefault(); 
     const codigo = document.getElementById('codigo').value;
     const nombre = document.getElementById('nombre').value;
     const precio = parseFloat(document.getElementById('precio').value);
     const stock = parseInt(document.getElementById('stock').value);
+    const messageDiv = document.getElementById('message');
 
     const storeData = {
         codigo: codigo,
@@ -63,11 +64,18 @@ function submitForm() {
     })
     .then(data => {
         console.log('Producto creado:', data);
-        alert('Producto creado con éxito');
+        codigoInput.value = '';
+        nombreInput.value = '';
+        precioInput.value = '';
+        stockInput.value = '';
+
+        messageDiv.textContent = '¡Producto creado con éxito!';
+        messageDiv.style.color = 'green';
     })
     .catch(error => {
         console.error('Error:', error);
-        alert('Error al crear el producto');
+        messageDiv.textContent = 'Error al crear el producto. Inténtalo de nuevo.';
+        messageDiv.style.color = 'red';
     });
 }
 
